@@ -1,0 +1,12 @@
+#!/bin/bash
+# alldb - send adb commands to all connected devices
+
+adb devices | while read line
+do
+  if [ ! "$line" = "" ] && [ `echo $line | awk '{print $2}'` = "device" ]
+  then
+      id=`echo $line | awk '{print $1}'`
+      echo "adb -s $id $@"
+      adb -s $id $@
+  fi
+done

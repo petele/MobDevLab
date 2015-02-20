@@ -1,0 +1,16 @@
+{
+  "name": "MDLScratch",
+  "description": "Scratch folder for mobile device lab",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petele/MobDevLab"
+  },
+  "dependencies": {
+    "adbkit": "^2.1.6",
+    "firebase": "^2.2.0"
+  },
+  "devDependencies": {}
+}

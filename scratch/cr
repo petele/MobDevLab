@@ -1,0 +1,22 @@
+# Script Open Chrome Windows
+
+action=android.intent.action.VIEW
+package=com.android.chrome
+activity=com.google.android.apps.chrome.Main
+args='--activity-clear-when-task-reset -f 0x10000000 --es com.android.browser.application_id "'$package'"'
+cmd='shell am start -a '$action' -n '$package'/'$activity' '$args' -d '$@
+
+echo $cmd
+
+adb devices | while read line
+do
+  if [ ! "$line" = "" ] && [ `echo $line | awk '{print $2}'` = "device" ]
+  then
+      device=`echo $line | awk '{print $1}'`
+      # echo "adb -s $device $@ ..."
+      # adb -s $device $@
+      # adb -s $device shell am start -a android.intent.action.VIEW -d $@ -n com.android.chrome/com.google.android.apps.chrome.Main
+      # adb -s $device shell am start -a $action -d $@ -n $package/$activity $args
+      adb -s $device $cmd
+  fi
+done
