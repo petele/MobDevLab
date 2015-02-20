@@ -1,30 +1,43 @@
 var Firebase = require("firebase");
+var readline = require("readline");
+var fb, rl;
 
-var fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
+var fbKey = "0xkHHBbc84bcxkAVwcfQ00HjTjdwFc0str228AuW";
 
-var readline = require('readline');
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-console.log("Quick URL Sender");
-console.log(" use 'quit' to quit.");
+function init() {
+  console.log("Quick URL Sender");
+  console.log(" use 'quit' to quit.");
+  fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
+  fb.authWithCustomToken(fbKey, function(error, authToken) {
+    if (error) {
+      console.log("Firebase connection failed.", error);
+    } else {
+      console.log("Firebase connection successful...");
+      rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      ask();
+    }
+  });
+}
 
 function ask() {
   rl.question("URL to send: ", function(answer) {
     if (answer.trim() === 'quit') {
       console.log("Quitting...");
       rl.close();
-      console.log(fb);
-      fb.goOffline();
+      process.exit();
     } else {
-      console.log("[SENT]", answer);
-      fb.child("url").set(answer);
+      var data = {
+        "url": answer,
+        "date": Date.now()
+      };
+      console.log("[SENT]", data);
+      fb.child("url").push(data);
       ask();
     }
   });
 }
 
-ask();
+init();

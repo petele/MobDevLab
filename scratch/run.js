@@ -1,5 +1,5 @@
 var Firebase = require("firebase");
-var adb = require('adbkit');
+var adb = require("adbkit");
 var adbClient = adb.createClient();
 var devices = [];
 
@@ -13,18 +13,12 @@ var startActivityOptions = {
   ]
 };
 
-function initFB() {
+function init() {
   var fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
-  fb.child("url").on("value", function(snapshot) {
+  fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
     var val = snapshot.val();
-    openURLOnDevices(val);
+    openURLOnDevices(val.url);
   });
-
-
-}
-
-function logit(a, b, c) {
-  console.log("LogIt", a, b, c);
 }
 
 function addDevice(device) {
@@ -58,4 +52,4 @@ adbClient.trackDevices(function(err, t) {
 });
 
 
-initFB();
+init();
