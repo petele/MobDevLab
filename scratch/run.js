@@ -2,12 +2,33 @@ var fs = require("fs");
 var Firebase = require("firebase");
 var adb = require("adbkit");
 
-var config, devices, adbClient;
+var config, intervalId, loopUrls, loopIndex, devices, adbClient;
 
 function addDevice(device) {
+  var url = 'data:text/html,<html><head>';
+  url += '<meta name="viewport" content="width=device-width, initial-scale=1">';
+  url += '<style>h1 { font-size: 55vw; text-align: center; }</style>';
+  url += '</head><body>';
+  url += '<div><h1>:)</h1></div>';
+  url += '</body></html>';
   if ((device.type === "device") && (devices.indexOf(device.id) === -1)) {
     devices.push(device.id);
     console.log("+", device.id);
+    var intent = {
+      "wait": false,
+      "action": "android.intent.action.VIEW",
+      "component": "com.android.chrome/com.google.android.apps.chrome.Main",
+      "flags": [0x10000000],
+      "extras": [
+        {
+          "key": "com.android.browser.application_id",
+          "type": "string",
+          "value": "com.android.chrome"
+        }
+      ],
+      "data": url
+    };
+    adbClient.startActivity(device.id, intent);
   }
 }
 
@@ -41,7 +62,11 @@ function openWithChrome(url) {
     "component": "com.android.chrome/com.google.android.apps.chrome.Main",
     "flags": [0x10000000],
     "extras": [
-      {"key": "com.android.browser.application_id", "type": "string", "value": "com.android.chrome"}
+      {
+        "key": "com.android.browser.application_id",
+        "type": "string",
+        "value": "com.android.chrome"
+      }
     ],
     "data": url
   };
@@ -50,38 +75,65 @@ function openWithChrome(url) {
 
 function initDeviceWatcher() {
   adbClient.trackDevices(function(err, t) {
-  if (err) {
-    console.log("TrackClient Error", err);
-    process.exit();
-  } else {
-    t.addListener("add", addDevice);
-    t.addListener("remove", removeDevice);
-    t.addListener("change", deviceChange);
-  }
-});
+    if (err) {
+      console.log("TrackClient Error", err);
+      process.exit();
+    } else {
+      t.addListener("add", addDevice);
+      t.addListener("remove", removeDevice);
+      t.addListener("change", deviceChange);
+    }
+  });
 }
+
+function loopTick() {
+  if (loopUrls.length > 0) {
+    var i = loopIndex++ % loopUrls.length;
+    openWithChrome(loopUrls[i]);
+  }
+}
+
 
 function init() {
   console.log("Device Lab Runner");
   config = {};
   devices = [];
+  loopUrls = [];
+  loopIndex = 0;
   adbClient = adb.createClient();
-
+  initDeviceWatcher();
   fs.readFile("./config.json", {"encoding": "utf8"}, function(err, data) {
     if (err) {
       console.log("Error reading config", err);
       process.exit();
     } else {
       console.log("* Config file read.");
-      config = JSON.parse(data);
-      var fb = new Firebase(config.fbURL);
+      var connectionConfig = JSON.parse(data);
+      var fb = new Firebase(connectionConfig.fbURL);
       fb.authAnonymously(function(err, authData) {
         if (err) {
           console.log("Error connecting to Firebase.");
           process.exit();
         } else {
           console.log("* Connected to Firebase.");
-          initDeviceWatcher();
+          fb.child("config").on("value", function(snapshot) {
+            config = snapshot.val();
+            if (config.loop === true) {
+              if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = undefined;
+              }
+              intervalId = setInterval(loopTick, config.loopSleep * 1000);
+            } else {
+              if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = undefined;
+              }
+            }
+          });
+          fb.child("urlsToLoop").on("value", function(snapshot) {
+            loopUrls = snapshot.val();
+          });
           fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
             var val = snapshot.val();
             if (val.url) {
@@ -93,5 +145,6 @@ function init() {
     }
   });
 }
+
 
 init();
