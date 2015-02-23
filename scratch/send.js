@@ -1,23 +1,32 @@
+var fs = require("fs");
 var Firebase = require("firebase");
 var readline = require("readline");
-var fb, rl;
+var fb, rl, config;
 
-var fbKey = "0xkHHBbc84bcxkAVwcfQ00HjTjdwFc0str228AuW";
 
 function init() {
   console.log("Quick URL Sender");
-  console.log(" use 'quit' to quit.");
-  fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
-  fb.authWithCustomToken(fbKey, function(error, authToken) {
-    if (error) {
-      console.log("Firebase connection failed.", error);
+  fs.readFile("./config.json", {"encoding": "utf8"}, function(err, data) {
+    if (err) {
+      console.log("Error reading config.", err);
+      process.exit();
     } else {
-      console.log("Firebase connection successful...");
-      rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+      config = JSON.parse(data);
+      
+      fb = new Firebase(config.fbURL);
+      fb.authWithCustomToken(config.fbKey, function(error, authToken) {
+        if (error) {
+          console.log("Firebase connection failed.", error);
+        } else {
+          console.log("* Firebase connection successful...");
+          rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+          console.log("** Use 'quit' to quit.");
+          ask();
+        }
       });
-      ask();
     }
   });
 }
@@ -31,7 +40,8 @@ function ask() {
     } else {
       var data = {
         "url": answer,
-        "date": Date.now()
+        "date": Date.now(),
+        "runTests": true
       };
       console.log("[SENT]", data);
       fb.child("url").push(data);

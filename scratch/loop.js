@@ -1,24 +1,33 @@
+var fs = require("fs");
 var Firebase = require("firebase");
-var fb;
-var urls = [];
-var counter = 0;
-var fbKey = "0xkHHBbc84bcxkAVwcfQ00HjTjdwFc0str228AuW";
+var config, fb, urls, counter;
 
 function init() {
-  fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
-  console.log("URL Loop Sender");
-  fb.authWithCustomToken(fbKey, function(error, authToken) {
-    if (error) {
-      console.log("Firebase connection failed.", error);
+  config = {};
+  urls = [];
+  counter = 0;
+  fs.readFile("./config.json", {"encoding": "utf8"}, function(err, data) {
+    if (err) {
+      console.log("Error reading config.", err);
     } else {
-      console.log("Firebase connection successful...");
-      fb.child("urlsToLoop").on("value", function(snapshot) {
-        urls = snapshot.val();
-        console.log("URLs loaded:", urls.length);
+      config = JSON.parse(data);
+      fb = new Firebase(config.fbURL);
+      console.log("URL Loop Sender");
+      fb.authWithCustomToken(config.fbKey, function(error, authToken) {
+        if (error) {
+          console.log("Firebase connection failed.", error);
+        } else {
+          console.log("Firebase connection successful...");
+          fb.child("urlsToLoop").on("value", function(snapshot) {
+            urls = snapshot.val();
+            console.log("URLs loaded:", urls.length);
+          });
+          loop();
+        }
       });
-      loop();
     }
   });
+  
 }
 
 function loop() {
@@ -27,7 +36,8 @@ function loop() {
     console.log("Send", i, urls[i]);
     var data = {
       "url": urls[i],
-      "date": Date.now()
+      "date": Date.now(),
+      "runTests": true
     }
     fb.child("url").push(data);
   }
