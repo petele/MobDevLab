@@ -10,7 +10,7 @@ function init() {
       //console.log(" -- ", snap.val());
       var val = snap.val();
       if (val.score) {
-        console.log(snapshot.val().url, val.score.mobile.psi);
+        console.log(val.url, val.score);
       }
     });
   });

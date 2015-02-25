@@ -3,15 +3,24 @@ var adbClient = adb.createClient();
 
 var pkg = "com.synetics.stay.alive";
 var intentInstall = {
-  "wait": false,
+  "wait": true,
   "action": "android.intent.action.VIEW",
   "data": "market://details?id=com.synetics.stay.alive"
 };
 var intentStart = {
-  "wait": false,
+  "wait": true,
   "action": "android.intent.category.LAUNCHER",
   "component": "com.synetics.stay.alive/.main"
 };
+
+function checkAndInstall(deviceId) {
+  adbClient.startActivity(deviceId, intentStart, function(err, result) {
+    console.log(deviceId, result);
+    if (err) {
+      adbClient.startActivity(deviceId, intentInstall);
+    }
+  });
+}
 
 adbClient.listDevices(function(err, dev) {
   if (err) {
@@ -19,17 +28,7 @@ adbClient.listDevices(function(err, dev) {
   } else {
     for (var i = 0; i < dev.length; i++) {
       var deviceId = dev[i].id;
-      adbClient.isInstalled(deviceId, pkg, function(err, installed) {
-        if (err) {
-          console.log("Error", deviceId, err);
-        } else {
-          if (installed === true) {
-            adbClient.startActivity(deviceId, intentStart);
-          } else {
-            adbClient.startActivity(deviceId, intentInstall);
-          }
-        }
-      });
+      checkAndInstall(deviceId);
     }
   }
 });
