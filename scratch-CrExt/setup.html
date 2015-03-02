@@ -1,0 +1,47 @@
+<html>
+<head>
+  <link rel="stylesheet" href="bootstrap-3.3.2.min.css">
+  <style type="text/css">
+    .panel {
+      margin: 2em auto;
+      max-width: 500px;
+    }
+    .btn {
+      min-width: 80px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Device Lab Client</div>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label for="url">Firebase URL</label>
+            <input type="url" class="form-control" id="url" placeholder="Firebase URL">
+          </div>
+          <div class="form-group">
+            <label for="key">Firebase Key</label>
+            <input type="password" class="form-control" id="key" placeholder="Firebase Key">
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="onByDefault" checked> On by default.
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <button type="button" id="butSave" class="btn btn-primary">Save</button>
+          <button type="button" id="butClear" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="setup.js"></script>
+</body>
+</html>
