@@ -22,23 +22,7 @@
 			<key>KeyboardType</key>
 			<string>URL</string>
 			<key>Title</key>
-			<string>FB App</string>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-		</dict>
-		<dict>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-			<key>IsSecure</key>
-			<false/>
-			<key>Key</key>
-			<string>fbKey</string>
-			<key>KeyboardType</key>
-			<string>Alphabet</string>
-			<key>Title</key>
-			<string>Key</string>
+			<string>FB App ID</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 		</dict>

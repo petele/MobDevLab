@@ -110,17 +110,23 @@ static const CGFloat kAddressHeight = 22.0f;
     @try {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *fbAppName = [defaults stringForKey:@"fbAppName"];
-        NSString *fbKey = [defaults stringForKey:@"fbKey"];
-        if ((fbAppName) && (fbKey)) {
+        //NSString *fbKey = [defaults stringForKey:@"fbKey"];
+        //if ((fbAppName) && (fbKey)) {
+        if (fbAppName) {
             
             NSString *fbURL = [NSString stringWithFormat:@"https://%@.firebaseio.com/url", fbAppName];
             
             Firebase *myRootRef = [[Firebase alloc] initWithUrl:fbURL];
-            [myRootRef authWithCustomToken:fbKey withCompletionBlock:^(NSError *error, FAuthData *authData) {
+            [myRootRef authAnonymouslyWithCompletionBlock:^(NSError *error, FAuthData *authData) {
                 if (error) {
                     [self informError:error];
                 }
             }];
+            //[myRootRef authWithCustomToken:fbKey withCompletionBlock:^(NSError *error, FAuthData *authData) {
+            //    if (error) {
+            //        [self informError:error];
+            //    }
+            //}];
             
             [[[myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
              observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {

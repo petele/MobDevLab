@@ -94,7 +94,7 @@ function init() {
       console.log("* Config file parsed.");
       var cnxSettings = JSON.parse(data);
       var fb = new Firebase(cnxSettings.fbURL);
-      fb.authWithCustomToken(cnxSettings.fbKey, function(err, authToken) {
+      fb.authAnonymously(function(err, authToken) {
         if (err) {
           console.log("* Firebase connection failed.", err);
           process.exit();
