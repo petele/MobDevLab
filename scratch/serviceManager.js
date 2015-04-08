@@ -118,6 +118,37 @@ function runTests(urlRef) {
   urlRef.ref().child("runTests").set(false);
 }
 
+function startServiceManager() {
+  fb.child(".info/connected").on("value", function(snapshot) {
+    if (snapshot.val() === true) {
+      fb.child("serviceManagerRunning").set(true);
+      fb.child("serviceManagerRunning").onDisconnect().remove();
+    }
+  });
+  fb.child("config/apiKeys").on("value", function(snapshot) {
+    apiKeys = snapshot.val();
+  });
+  fb.child("urlsToLoop").on("value", function(snapshot) {
+    loopURLs = snapshot.val();
+  });
+  fb.child("config/loopInterval").on("value", function(snapshot) {
+    loopInterval = snapshot.val();
+  });
+  fb.child("config/loop").on("value", function(snapshot) {
+    var val = snapshot.val();
+    if (val === true) {
+      startLooper();
+    } else {
+      stopLooper();
+    }
+  });
+  fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
+    var val = snapshot.val();
+    if ((val.url) && (val.runTests === true)) {
+      runTests(snapshot);
+    }
+  });
+}
 
 function init() {
   console.log("Device Lab Service Manager");
@@ -141,27 +172,12 @@ function init() {
           process.exit();
         } else {
           console.log("* Connected to Firebase.");
-          fb.child("config/apiKeys").on("value", function(snapshot) {
-            apiKeys = snapshot.val();
-          });
-          fb.child("urlsToLoop").on("value", function(snapshot) {
-            loopURLs = snapshot.val();
-          });
-          fb.child("config/loopInterval").on("value", function(snapshot) {
-            loopInterval = snapshot.val();
-          });
-          fb.child("config/loop").on("value", function(snapshot) {
-            var val = snapshot.val();
-            if (val === true) {
-              startLooper();
+          fb.child("serviceManagerRunning").once("value", function(snapshot) {
+            if (snapshot.val() === true) {
+              console.log("* Service Manager already running, exiting.");
+              process.exit();
             } else {
-              stopLooper();
-            }
-          });
-          fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
-            var val = snapshot.val();
-            if ((val.url) && (val.runTests === true)) {
-              runTests(snapshot);
+              startServiceManager();
             }
           });
         }
