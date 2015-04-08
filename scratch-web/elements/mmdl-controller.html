@@ -61,8 +61,14 @@
       },
       pushURL: function(event, details, sender) {
         if (this.enableSender === true) {
-          var url = this.$.inpURL.value;
-          fb.child("url").push({"url": url});
+
+          var url = {
+            "url": this.$.inpURL.value,
+            "date": Date.now(),
+            "runTests": false,
+            "source": "mmdlWeb"
+          };
+          fb.child("url").push(url);
           this.$.inpURL.value = "";
           this.enableSender = false;
           this.invalidURL = false;

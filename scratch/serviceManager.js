@@ -7,7 +7,12 @@ var fb, apiKeys, runLoop, loopInterval, intervalId, loopURLs, loopCounter;
 function loopTick() {
   var loopIndex = loopCounter++ % loopURLs.length;
   var newURL = loopURLs[loopIndex];
-  var item = {"url": newURL};
+  var item = {
+    "url": newURL,
+    "date": Date.now(),
+    "runTests": false,
+    "source": "looper"
+  };
   fb.child("url").push(item);
   console.log(newURL);
   if (runLoop === true) {

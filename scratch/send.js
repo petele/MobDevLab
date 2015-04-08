@@ -41,7 +41,8 @@ function ask() {
       var data = {
         "url": answer,
         "date": Date.now(),
-        "runTests": true
+        "runTests": true,
+        "source": "jsSender"
       };
       console.log("[SENT]", data);
       fb.child("url").push(data);
