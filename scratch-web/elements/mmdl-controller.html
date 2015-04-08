@@ -1,0 +1,83 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="/bower_components/core-label/core-label.html">
+<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="/bower_components/paper-toast/paper-toast.html">
+<polymer-element name="mmdl-controller">
+  <template>
+    <h1>Mobile Device Lab Controller</h1>
+    <div horizontal layout>
+      <core-label flex for=".ptbLoop">
+        Looper Enabled
+      </core-label>
+      <paper-toggle-button class="ptbLoop" checked?="{{isLooping}}" on-change="{{toggleLoop}}"></paper-toggle-button>
+    </div>
+
+    <div horizontal layout center>
+      <paper-input-decorator flex label="URL to Send"  floatingLabel error="Value must be a URL" isInvalid="{{invalidURL}}">
+        <input is="core-input" id="inpURL" on-input="{{tbChange}}" type="url">
+      </paper-input-decorator>
+      <paper-fab icon="arrow-forward" title="arrow-forward" mini=true on-tap="{{pushURL}}" disabled="{{!enableSender}}"></paper-fab>
+    </div>
+    <paper-toast id="pToast"></paper-toast>
+  </template>
+  <script type="text/javascript">
+    Polymer({
+      created: function() {
+        console.log("YES");
+        this.isLooping = false;
+        this.enableSender = false;
+        this.invalidURL = false;
+        var self = this;
+        fb.child("config/loop").on("value", function(snapshot) {
+          self.isLooping = snapshot.val();
+        });
+        fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
+          console.log("URL Sent: ", snapshot.val());
+          var url = snapshot.val().url;
+        });
+      },
+      ready: function() {
+        var self = this;
+        this.$.inpURL.addEventListener('keypress', function(e) {
+          if ((e.keyCode == 13) && (self.enableSender === true)){
+            self.pushURL();
+          }
+        });
+      },
+      tbChange: function(event, details, sender) {
+        if (sender.value === "") {
+          this.enableSender = false;
+          this.invalidURL = false;
+        } else if (sender.validity.valid === true) {
+          this.enableSender = true;
+          this.invalidURL = false;
+        } else {
+          this.enableSender = false;
+          this.invalidURL = true;
+        }
+      },
+      pushURL: function(event, details, sender) {
+        if (this.enableSender === true) {
+          var url = this.$.inpURL.value;
+          fb.child("url").push({"url": url});
+          this.$.inpURL.value = "";
+          this.enableSender = false;
+          this.invalidURL = false;
+          this.$.pToast.text = url + " sent.";
+          this.$.pToast.show();
+        }
+      },
+      toggleLoop: function(event, details, sender) {
+        if (sender.checked === true) {
+          fb.child("config/loop").set(true);
+        } else {
+          fb.child("config/loop").set(false);
+        }
+      }
+      
+    });
+  </script>
+</polymer-element>

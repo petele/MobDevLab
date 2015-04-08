@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <title>Mini Mobile Device Lab</title>
+  <meta name="theme-color" content="#0288d1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="/bower_components/font-roboto/roboto.html">
+  <link rel="import" href="/elements/mmdl-controller.html">
+  <style type="text/css">
+    body {
+      font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+    }
+    body {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <mmdl-controller>
+  </mmdl-controller>
+
+  <script src="/bower_components/firebase/firebase.js"></script>
+  <script type="text/javascript">
+    var fb = new Firebase("https://shining-inferno-4243.firebaseio.com/");
+    fb.authWithCustomToken("0xkHHBbc84bcxkAVwcfQ00HjTjdwFc0str228AuW", function(error) {
+
+    });
+  </script>
+
+</body>
+</html>
