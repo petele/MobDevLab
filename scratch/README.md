@@ -3,7 +3,7 @@
 
 ## ServiceManager
 
-You only need one `serviceManager.js` running per instance of Firebase.  
+You only need one `serviceManager.js` running per instance of Firebase. 
 Service Manager primarily handles looping, but also manages automatic page 
 testing. When it detects a new URL has been pushed (either through the looper 
 or manually), it will test the page with PageSpeed Insights and Web Page Test,
