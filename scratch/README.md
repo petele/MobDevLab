@@ -45,3 +45,8 @@ Cleans the list of tested URLs from Firebase, essentially
 Fires an intent to any device connected to the computer to install
 [Stay Awake](https://play.google.com/store/apps/details?id=com.synetics.stay.alive)
 
+# Other notes
+
+### REST Client
+
+`curl 'https://shining-inferno-4243.firebaseio.com/url.json?limitToLast=1&print=pretty&orderBy="$key"'`
