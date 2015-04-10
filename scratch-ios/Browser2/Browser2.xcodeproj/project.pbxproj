@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		792BC3461AD85BBC0052E298 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 792BC3451AD85BBC0052E298 /* WebKit.framework */; };
 		797A5BF31AA0FA1D002EAFF8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 797A5BF21AA0FA1D002EAFF8 /* main.m */; };
 		797A5BF61AA0FA1D002EAFF8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 797A5BF51AA0FA1D002EAFF8 /* AppDelegate.m */; };
 		797A5BF91AA0FA1D002EAFF8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 797A5BF81AA0FA1D002EAFF8 /* ViewController.m */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		792BC3451AD85BBC0052E298 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		797A5BED1AA0FA1D002EAFF8 /* Browser2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797A5BF11AA0FA1D002EAFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		797A5BF21AA0FA1D002EAFF8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				792BC3461AD85BBC0052E298 /* WebKit.framework in Frameworks */,
 				797A5C211AA10950002EAFF8 /* SystemConfiguration.framework in Frameworks */,
 				797A5C1F1AA10947002EAFF8 /* Security.framework in Frameworks */,
 				797A5C1D1AA1093F002EAFF8 /* CFNetwork.framework in Frameworks */,
@@ -83,6 +86,7 @@
 		797A5BE41AA0FA1D002EAFF8 = {
 			isa = PBXGroup;
 			children = (
+				792BC3451AD85BBC0052E298 /* WebKit.framework */,
 				797A5C221AA11BDD002EAFF8 /* Settings.bundle */,
 				797A5C201AA10950002EAFF8 /* SystemConfiguration.framework */,
 				797A5C1E1AA10947002EAFF8 /* Security.framework */,
@@ -195,9 +199,11 @@
 				TargetAttributes = {
 					797A5BEC1AA0FA1D002EAFF8 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 9BZX8TASHC;
 					};
 					797A5C051AA0FA1D002EAFF8 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 9BZX8TASHC;
 						TestTargetID = 797A5BEC1AA0FA1D002EAFF8;
 					};
 				};
@@ -403,6 +409,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -414,6 +422,7 @@
 				INFOPLIST_FILE = Browser2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Browser2.app/Browser2";
 			};
 			name = Debug;
@@ -422,6 +431,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -429,6 +440,7 @@
 				INFOPLIST_FILE = Browser2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Browser2.app/Browser2";
 			};
 			name = Release;
@@ -452,6 +464,7 @@
 				797A5C121AA0FA1D002EAFF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		797A5C131AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "Browser2Tests" */ = {
 			isa = XCConfigurationList;
@@ -460,6 +473,7 @@
 				797A5C151AA0FA1D002EAFF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

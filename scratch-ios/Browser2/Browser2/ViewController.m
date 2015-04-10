@@ -75,7 +75,6 @@ static const CGFloat kAddressHeight = 22.0f;
     [readyBody appendString:@"h1 { font-size: 55vw; } "];
     [readyBody appendString:@"</style><head><body><div>"];
     [readyBody appendString:@"<h1>:)</h1>"];
-    [readyBody appendString:@"<p>Please configure Firebase Settings.</p>"];
     [readyBody appendString:@"</div></body></html>"];
     [self.webView loadHTMLString:readyBody baseURL:nil];
     
@@ -110,31 +109,31 @@ static const CGFloat kAddressHeight = 22.0f;
     @try {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *fbAppName = [defaults stringForKey:@"fbAppName"];
-        //NSString *fbKey = [defaults stringForKey:@"fbKey"];
-        //if ((fbAppName) && (fbKey)) {
-        if (fbAppName) {
-            
-            NSString *fbURL = [NSString stringWithFormat:@"https://%@.firebaseio.com/url", fbAppName];
-            
-            Firebase *myRootRef = [[Firebase alloc] initWithUrl:fbURL];
-            [myRootRef authAnonymouslyWithCompletionBlock:^(NSError *error, FAuthData *authData) {
-                if (error) {
-                    [self informError:error];
-                }
-            }];
-            //[myRootRef authWithCustomToken:fbKey withCompletionBlock:^(NSError *error, FAuthData *authData) {
-            //    if (error) {
-            //        [self informError:error];
-            //    }
-            //}];
-            
-            [[[myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
-             observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
+        if (!fbAppName) {
+            fbAppName = [NSString stringWithFormat:@"shining-inferno-4243"];
+        }
+        
+        NSString *fbURL = [NSString stringWithFormat:@"https://%@.firebaseio.com/url", fbAppName];
+        
+        Firebase *myRootRef = [[Firebase alloc] initWithUrl:fbURL];
+        [myRootRef authAnonymouslyWithCompletionBlock:^(NSError *error, FAuthData *authData) {
+            if (error) {
+                [self informError:error];
+            }
+        }];
+        
+        [[[myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
+         observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
+             @try {
                  NSLog(@"%@ -> %@", snapshot.key, snapshot.value[@"url"]);
                  NSString *strURL = snapshot.value[@"url"];
                  [self loadRequestFromString:strURL];
-             }];
-        }
+             }
+             @catch (NSException *ex) {
+                 NSLog(@"%@", ex.reason);
+             }
+         }];
+
     }
     @catch (NSException *ex) {
         NSLog(@"%@", ex.reason);
