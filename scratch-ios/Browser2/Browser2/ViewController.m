@@ -107,6 +107,7 @@ static const CGFloat kAddressHeight = 22.0f;
     
     
     @try {
+        NSLog(@"createFirebaseInstance");
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *fbAppName = [defaults stringForKey:@"fbAppName"];
         if (!fbAppName) {
@@ -183,7 +184,7 @@ static const CGFloat kAddressHeight = 22.0f;
                               message:localizedDescription delegate:nil
                               cancelButtonTitle:NSLocalizedString(@"OK", @"OK button in error alert.")
                               otherButtonTitles:nil];
-    [alertView show];
+    //[alertView show];
 }
 
 - (void)updateButtons {
