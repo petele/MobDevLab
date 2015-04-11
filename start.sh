@@ -4,4 +4,5 @@ cd scratch
 
 npm install
 
-node serviceManager.js
+#node serviceManager.js
+node client.js
