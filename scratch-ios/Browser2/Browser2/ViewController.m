@@ -74,6 +74,7 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)disconnectFirebase {
     NSLog(@"disconnectFirebase");
+    [self.myRootRef removeAllObservers];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -95,6 +96,8 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    //NSLog(@"RELOAD?!");
+    //[webView reload];
     [self updateButtons];
     [self informError:error];
 }
@@ -102,7 +105,6 @@ static const CGFloat kAddressHeight = 22.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
-    [self initFirebase];
     
     NSMutableString *readyBody = [[NSMutableString alloc]init];
     [readyBody appendString:@"<html><head>"];
@@ -144,7 +146,7 @@ static const CGFloat kAddressHeight = 22.0f;
     
     @try {
         [self initFirebase];
-        [self connectFirebase];
+        //[self connectFirebase];
     }
     @catch (NSException *ex) {
         NSLog(@"Firebase failed: %@", ex.reason);

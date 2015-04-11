@@ -37,6 +37,9 @@
     NSLog(@"applicationWillResignActive");
     //ViewController *vc = [[ViewController alloc] init];
     //[vc disconnectFirebase];
+    UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
+    ViewController *vc = (ViewController*)[navController topViewController];
+    [vc disconnectFirebase];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -55,6 +58,9 @@
     NSLog(@"applicationDidBecomeActive");
     //ViewController *vc = [[ViewController alloc] init];
     //[vc connectFirebase];
+    UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
+    ViewController *vc = (ViewController*)[navController topViewController];
+    [vc connectFirebase];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
