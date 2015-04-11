@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Firebase/Firebase.h>
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) Firebase* myRootRef;
+
+- (void)initFirebase;
+- (void)connectFirebase;
+- (void)disconnectFirebase;
 
 @end
 

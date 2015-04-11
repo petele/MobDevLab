@@ -36,11 +36,45 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)informError:(NSError*)error;
 
+- (void)initFirebase;
+- (void)connectFirebase;
+- (void)disconnectFirebase;
+
 @end
 
 @implementation ViewController
 
+- (void)initFirebase {
+    NSLog(@"initFirebase");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *fbAppName = [defaults stringForKey:@"fbAppName"];
+    if (!fbAppName) {
+        fbAppName = [NSString stringWithFormat:@"shining-inferno-4243"];
+    }
 
+    NSString *fbURL = [NSString stringWithFormat:@"https://%@.firebaseio.com/url", fbAppName];
+
+    self.myRootRef = [[Firebase alloc] initWithUrl:fbURL];
+}
+
+- (void)connectFirebase {
+    NSLog(@"connectFirebase");
+    [[[self.myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
+     observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
+         @try {
+             NSLog(@"%@ -> %@", snapshot.key, snapshot.value[@"url"]);
+             NSString *strURL = snapshot.value[@"url"];
+             [self loadRequestFromString:strURL];
+         }
+         @catch (NSException *ex) {
+             NSLog(@"%@", ex.reason);
+         }
+     }];
+}
+
+- (void)disconnectFirebase {
+    NSLog(@"disconnectFirebase");
+}
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     [self updateAddress:request];
@@ -67,6 +101,8 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"viewDidLoad");
+    [self initFirebase];
     
     NSMutableString *readyBody = [[NSMutableString alloc]init];
     [readyBody appendString:@"<html><head>"];
@@ -107,37 +143,11 @@ static const CGFloat kAddressHeight = 22.0f;
     
     
     @try {
-        NSLog(@"createFirebaseInstance");
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *fbAppName = [defaults stringForKey:@"fbAppName"];
-        if (!fbAppName) {
-            fbAppName = [NSString stringWithFormat:@"shining-inferno-4243"];
-        }
-        
-        NSString *fbURL = [NSString stringWithFormat:@"https://%@.firebaseio.com/url", fbAppName];
-        
-        Firebase *myRootRef = [[Firebase alloc] initWithUrl:fbURL];
-        [myRootRef authAnonymouslyWithCompletionBlock:^(NSError *error, FAuthData *authData) {
-            if (error) {
-                [self informError:error];
-            }
-        }];
-        
-        [[[myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
-         observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
-             @try {
-                 NSLog(@"%@ -> %@", snapshot.key, snapshot.value[@"url"]);
-                 NSString *strURL = snapshot.value[@"url"];
-                 [self loadRequestFromString:strURL];
-             }
-             @catch (NSException *ex) {
-                 NSLog(@"%@", ex.reason);
-             }
-         }];
-
+        [self initFirebase];
+        [self connectFirebase];
     }
     @catch (NSException *ex) {
-        NSLog(@"%@", ex.reason);
+        NSLog(@"Firebase failed: %@", ex.reason);
     }
 
     
@@ -177,7 +187,7 @@ static const CGFloat kAddressHeight = 22.0f;
 }
 
 - (void)informError:(NSError *)error {
-    NSLog(@"%@", error.domain);
+    NSLog(@"Error opening url: %@", error.description);
     NSString* localizedDescription = [error localizedDescription];
     UIAlertView* alertView = [[UIAlertView alloc]
                               initWithTitle:NSLocalizedString(@"Sad Panda", @"Title for error alert.")
