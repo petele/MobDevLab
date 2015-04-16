@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import <Firebase/Firebase.h>
 
-static const CGFloat kNavBarHeight = 52.0f;
 static const CGFloat kLabelHeight = 14.0f;
 static const CGFloat kMargin = 10.0f;
 static const CGFloat kSpacer = 2.0f;
@@ -26,6 +25,8 @@ static const CGFloat kAddressHeight = 22.0f;
 
 @property (strong, nonatomic) UILabel *pageTitle;
 @property (strong, nonatomic) UITextField *addressField;
+
+@property (strong, nonatomic) NSString *strURL;
 
 - (void)loadRequestFromString:(NSString*)urlString;
 - (void)loadRequestFromAddressField:(id)addressField;
@@ -63,8 +64,8 @@ static const CGFloat kAddressHeight = 22.0f;
      observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
          @try {
              NSLog(@"%@ -> %@", snapshot.key, snapshot.value[@"url"]);
-             NSString *strURL = snapshot.value[@"url"];
-             [self loadRequestFromString:strURL];
+             self.strURL = snapshot.value[@"url"];
+             [self loadRequestFromString:self.strURL];
          }
          @catch (NSException *ex) {
              NSLog(@"%@", ex.reason);
@@ -75,6 +76,7 @@ static const CGFloat kAddressHeight = 22.0f;
 - (void)disconnectFirebase {
     NSLog(@"disconnectFirebase");
     [self.myRootRef removeAllObservers];
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -89,6 +91,7 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
     [self updateButtons];
     [self updateTitle:webView];
     [self updateAddress:[webView request]];
@@ -96,8 +99,9 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    //NSLog(@"RELOAD?!");
-    //[webView reload];
+    NSLog(@"didFailLoadWithError: %@", error.description);
+    [self.webView stopLoading];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self updateButtons];
     [self informError:error];
 }
@@ -140,13 +144,10 @@ static const CGFloat kAddressHeight = 22.0f;
       forControlEvents:UIControlEventEditingDidEndOnExit];
     [navBar addSubview:address];
     self.addressField = address;
-        
     self.webView.delegate = self;
-    
     
     @try {
         [self initFirebase];
-        //[self connectFirebase];
     }
     @catch (NSException *ex) {
         NSLog(@"Firebase failed: %@", ex.reason);
@@ -160,6 +161,8 @@ static const CGFloat kAddressHeight = 22.0f;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    NSLog(@"didReceiveMemoryWarning");
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 - (void)loadRequestFromString:(NSString*)urlString {
@@ -169,7 +172,11 @@ static const CGFloat kAddressHeight = 22.0f;
         url = [NSURL URLWithString:modifiedURL];
     }
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    if (self.webView.isLoading) {
+        [self.webView stopLoading];
+    }
     [self.webView loadRequest:urlRequest];
+    
 }
 
 - (void)loadRequestFromAddressField:(id)addressField {
@@ -189,14 +196,18 @@ static const CGFloat kAddressHeight = 22.0f;
 }
 
 - (void)informError:(NSError *)error {
-    NSLog(@"Error opening url: %@", error.description);
-    NSString* localizedDescription = [error localizedDescription];
-    UIAlertView* alertView = [[UIAlertView alloc]
-                              initWithTitle:NSLocalizedString(@"Sad Panda", @"Title for error alert.")
-                              message:localizedDescription delegate:nil
-                              cancelButtonTitle:NSLocalizedString(@"OK", @"OK button in error alert.")
-                              otherButtonTitles:nil];
-    //[alertView show];
+    NSLog(@"informError: %@", error.description);
+    NSMutableString *readyBody = [[NSMutableString alloc]init];
+    [readyBody appendString:@"<html><head>"];
+    [readyBody appendString:@"<meta name='viewport' content='width=device-width,initial-scale=1'>"];
+    [readyBody appendString:@"<style>body { font-family: Roboto, Helvetica; text-align: center; } "];
+    [readyBody appendString:@"h1 { font-size: 55vw; } "];
+    [readyBody appendString:@"</style><head><body><div>"];
+    [readyBody appendString:@"<h1>:(</h1>"];
+    [readyBody appendFormat:@"<code>%@</code>", error.localizedDescription];
+    [readyBody appendFormat:@"<p><a href='%@'>%@</a></p>", self.strURL, self.strURL];
+    [readyBody appendString:@"</div></body></html>"];
+    [self.webView loadHTMLString:readyBody baseURL:nil];
 }
 
 - (void)updateButtons {
