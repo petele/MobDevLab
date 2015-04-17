@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "797A5BEC1AA0FA1D002EAFF8"
-               BuildableName = "Browser2.app"
-               BlueprintName = "Browser2"
-               ReferencedContainer = "container:Browser2.xcodeproj">
+               BuildableName = "MMDLClient.app"
+               BlueprintName = "MMDLClient"
+               ReferencedContainer = "container:MMDLClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "797A5C051AA0FA1D002EAFF8"
-               BuildableName = "Browser2Tests.xctest"
-               BlueprintName = "Browser2Tests"
-               ReferencedContainer = "container:Browser2.xcodeproj">
+               BuildableName = "MMDLClientTests.xctest"
+               BlueprintName = "MMDLClientTests"
+               ReferencedContainer = "container:MMDLClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "797A5C051AA0FA1D002EAFF8"
-               BuildableName = "Browser2Tests.xctest"
-               BlueprintName = "Browser2Tests"
-               ReferencedContainer = "container:Browser2.xcodeproj">
+               BuildableName = "MMDLClientTests.xctest"
+               BlueprintName = "MMDLClientTests"
+               ReferencedContainer = "container:MMDLClient.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "797A5BEC1AA0FA1D002EAFF8"
-            BuildableName = "Browser2.app"
-            BlueprintName = "Browser2"
-            ReferencedContainer = "container:Browser2.xcodeproj">
+            BuildableName = "MMDLClient.app"
+            BlueprintName = "MMDLClient"
+            ReferencedContainer = "container:MMDLClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -72,13 +72,14 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "797A5BEC1AA0FA1D002EAFF8"
-            BuildableName = "Browser2.app"
-            BlueprintName = "Browser2"
-            ReferencedContainer = "container:Browser2.xcodeproj">
+            BuildableName = "MMDLClient.app"
+            BlueprintName = "MMDLClient"
+            ReferencedContainer = "container:MMDLClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -90,13 +91,14 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "797A5BEC1AA0FA1D002EAFF8"
-            BuildableName = "Browser2.app"
-            BlueprintName = "Browser2"
-            ReferencedContainer = "container:Browser2.xcodeproj">
+            BuildableName = "MMDLClient.app"
+            BlueprintName = "MMDLClient"
+            ReferencedContainer = "container:MMDLClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,10 +1,23 @@
-//
-//  ViewController.m
-//  Browser2
-//
-//  Created by Pete LePage on 2/27/15.
-//  Copyright (c) 2015 PeteLe. All rights reserved.
-//
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * Mini Mobile Device Lab (iOS Client)
+ * https://github.com/GoogleChrome/MiniMobileDeviceLab
+ * ViewController.m
+ *
+ **/
 
 #import "ViewController.h"
 #import <Firebase/Firebase.h>
@@ -81,19 +94,16 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     [self updateAddress:request];
-    //NSLog(@"shouldStartLoadWithRequest: %@", [request.URL absoluteString]);
     return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    //NSLog(@"webViewDidStartLoad");
     [self updateButtons];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    //NSLog(@"webViewDidFinishLoad");
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
     [self updateButtons];
     [self updateTitle:webView];

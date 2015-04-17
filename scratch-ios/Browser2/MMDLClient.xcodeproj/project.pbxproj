@@ -36,7 +36,7 @@
 
 /* Begin PBXFileReference section */
 		792BC3451AD85BBC0052E298 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		797A5BED1AA0FA1D002EAFF8 /* Browser2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		797A5BED1AA0FA1D002EAFF8 /* MMDLClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMDLClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797A5BF11AA0FA1D002EAFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		797A5BF21AA0FA1D002EAFF8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		797A5BF41AA0FA1D002EAFF8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 		797A5BFB1AA0FA1D002EAFF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		797A5BFD1AA0FA1D002EAFF8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		797A5C001AA0FA1D002EAFF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		797A5C061AA0FA1D002EAFF8 /* Browser2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Browser2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		797A5C061AA0FA1D002EAFF8 /* MMDLClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MMDLClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		797A5C0B1AA0FA1D002EAFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		797A5C0C1AA0FA1D002EAFF8 /* Browser2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Browser2Tests.m; sourceTree = "<group>"; };
 		797A5C161AA1091B002EAFF8 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 				797A5C1A1AA10939002EAFF8 /* libc++.dylib */,
 				797A5C181AA10930002EAFF8 /* libicucore.dylib */,
 				797A5C161AA1091B002EAFF8 /* Firebase.framework */,
-				797A5BEF1AA0FA1D002EAFF8 /* Browser2 */,
+				797A5BEF1AA0FA1D002EAFF8 /* MMDLClient */,
 				797A5C091AA0FA1D002EAFF8 /* Browser2Tests */,
 				797A5BEE1AA0FA1D002EAFF8 /* Products */,
 			);
@@ -103,13 +103,13 @@
 		797A5BEE1AA0FA1D002EAFF8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				797A5BED1AA0FA1D002EAFF8 /* Browser2.app */,
-				797A5C061AA0FA1D002EAFF8 /* Browser2Tests.xctest */,
+				797A5BED1AA0FA1D002EAFF8 /* MMDLClient.app */,
+				797A5C061AA0FA1D002EAFF8 /* MMDLClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		797A5BEF1AA0FA1D002EAFF8 /* Browser2 */ = {
+		797A5BEF1AA0FA1D002EAFF8 /* MMDLClient */ = {
 			isa = PBXGroup;
 			children = (
 				797A5BF41AA0FA1D002EAFF8 /* AppDelegate.h */,
@@ -121,6 +121,7 @@
 				797A5BFF1AA0FA1D002EAFF8 /* LaunchScreen.xib */,
 				797A5BF01AA0FA1D002EAFF8 /* Supporting Files */,
 			);
+			name = MMDLClient;
 			path = Browser2;
 			sourceTree = "<group>";
 		};
@@ -153,9 +154,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		797A5BEC1AA0FA1D002EAFF8 /* Browser2 */ = {
+		797A5BEC1AA0FA1D002EAFF8 /* MMDLClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 797A5C101AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "Browser2" */;
+			buildConfigurationList = 797A5C101AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "MMDLClient" */;
 			buildPhases = (
 				797A5BE91AA0FA1D002EAFF8 /* Sources */,
 				797A5BEA1AA0FA1D002EAFF8 /* Frameworks */,
@@ -165,14 +166,14 @@
 			);
 			dependencies = (
 			);
-			name = Browser2;
+			name = MMDLClient;
 			productName = Browser2;
-			productReference = 797A5BED1AA0FA1D002EAFF8 /* Browser2.app */;
+			productReference = 797A5BED1AA0FA1D002EAFF8 /* MMDLClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		797A5C051AA0FA1D002EAFF8 /* Browser2Tests */ = {
+		797A5C051AA0FA1D002EAFF8 /* MMDLClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 797A5C131AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "Browser2Tests" */;
+			buildConfigurationList = 797A5C131AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "MMDLClientTests" */;
 			buildPhases = (
 				797A5C021AA0FA1D002EAFF8 /* Sources */,
 				797A5C031AA0FA1D002EAFF8 /* Frameworks */,
@@ -183,9 +184,9 @@
 			dependencies = (
 				797A5C081AA0FA1D002EAFF8 /* PBXTargetDependency */,
 			);
-			name = Browser2Tests;
+			name = MMDLClientTests;
 			productName = Browser2Tests;
-			productReference = 797A5C061AA0FA1D002EAFF8 /* Browser2Tests.xctest */;
+			productReference = 797A5C061AA0FA1D002EAFF8 /* MMDLClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -208,7 +209,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 797A5BE81AA0FA1D002EAFF8 /* Build configuration list for PBXProject "Browser2" */;
+			buildConfigurationList = 797A5BE81AA0FA1D002EAFF8 /* Build configuration list for PBXProject "MMDLClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -221,8 +222,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				797A5BEC1AA0FA1D002EAFF8 /* Browser2 */,
-				797A5C051AA0FA1D002EAFF8 /* Browser2Tests */,
+				797A5BEC1AA0FA1D002EAFF8 /* MMDLClient */,
+				797A5C051AA0FA1D002EAFF8 /* MMDLClientTests */,
 			);
 		};
 /* End PBXProject section */
@@ -272,7 +273,7 @@
 /* Begin PBXTargetDependency section */
 		797A5C081AA0FA1D002EAFF8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 797A5BEC1AA0FA1D002EAFF8 /* Browser2 */;
+			target = 797A5BEC1AA0FA1D002EAFF8 /* MMDLClient */;
 			targetProxy = 797A5C071AA0FA1D002EAFF8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -390,7 +391,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MMDLClient;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -410,7 +411,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MMDLClient;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -431,9 +432,8 @@
 				);
 				INFOPLIST_FILE = Browser2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MMDLClientTests;
 				PROVISIONING_PROFILE = "";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Browser2.app/Browser2";
 			};
 			name = Debug;
 		};
@@ -449,16 +449,15 @@
 				);
 				INFOPLIST_FILE = Browser2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MMDLClientTests;
 				PROVISIONING_PROFILE = "";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Browser2.app/Browser2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		797A5BE81AA0FA1D002EAFF8 /* Build configuration list for PBXProject "Browser2" */ = {
+		797A5BE81AA0FA1D002EAFF8 /* Build configuration list for PBXProject "MMDLClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				797A5C0E1AA0FA1D002EAFF8 /* Debug */,
@@ -467,7 +466,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		797A5C101AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "Browser2" */ = {
+		797A5C101AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "MMDLClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				797A5C111AA0FA1D002EAFF8 /* Debug */,
@@ -476,7 +475,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		797A5C131AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "Browser2Tests" */ = {
+		797A5C131AA0FA1D002EAFF8 /* Build configuration list for PBXNativeTarget "MMDLClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				797A5C141AA0FA1D002EAFF8 /* Debug */,

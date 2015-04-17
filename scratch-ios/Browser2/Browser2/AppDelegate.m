@@ -1,10 +1,23 @@
-//
-//  AppDelegate.m
-//  Browser2
-//
-//  Created by Pete LePage on 2/27/15.
-//  Copyright (c) 2015 PeteLe. All rights reserved.
-//
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * Mini Mobile Device Lab (iOS Client)
+ * https://github.com/GoogleChrome/MiniMobileDeviceLab
+ * AppDelegate.m
+ *
+ **/
 
 #import "AppDelegate.h"
 #import "ViewController.h"
@@ -19,15 +32,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     // Register the preference defaults early.
-//    NSDictionary *appDefaults = [NSDictionary
-//                                 dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"CacheDataAgressively"];
-//    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-//    
-//    // Other initialization...
-//    NSLog(@"HERE");
     NSLog(@"didFinishLaunchingWithOptions");
-    //ViewController *vc = [[ViewController alloc] init];
-    //[vc initFirebase];
     return YES;
 }
 
@@ -35,8 +40,6 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     NSLog(@"applicationWillResignActive");
-    //ViewController *vc = [[ViewController alloc] init];
-    //[vc disconnectFirebase];
     UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
     ViewController *vc = (ViewController*)[navController topViewController];
     [vc disconnectFirebase];
@@ -56,8 +59,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     NSLog(@"applicationDidBecomeActive");
-    //ViewController *vc = [[ViewController alloc] init];
-    //[vc connectFirebase];
     UINavigationController *navController = (UINavigationController*)self.window.rootViewController;
     ViewController *vc = (ViewController*)[navController topViewController];
     [vc connectFirebase];
