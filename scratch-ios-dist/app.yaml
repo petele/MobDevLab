@@ -1,0 +1,26 @@
+application: mmdl-ipa
+version: scratch
+runtime: python27
+threadsafe: true
+api_version: 1
+
+default_expiration: "1s"
+
+handlers:
+- url: /MMDLClient.ipa
+  mime_type: application/octet-stream
+  static_files: static/MMDLClient.ipa
+  upload: static/MMDLClient.ipa
+
+- url: /MMDLClient.plist
+  mime_type: application/xml
+  static_files: static/MMDLClient.plist
+  upload: static/MMDLClient.plist
+
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+
+- url: /.*
+  static_files: static/index.html
+  upload: static/index.html
