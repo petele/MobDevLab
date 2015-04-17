@@ -63,7 +63,7 @@ static const CGFloat kAddressHeight = 22.0f;
     [[[self.myRootRef queryOrderedByKey] queryLimitedToLast:1 ]
      observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
          @try {
-             NSLog(@"%@ -> %@", snapshot.key, snapshot.value[@"url"]);
+             NSLog(@"** New URL: %@", snapshot.value[@"url"]);
              self.strURL = snapshot.value[@"url"];
              [self loadRequestFromString:self.strURL];
          }
@@ -81,16 +81,19 @@ static const CGFloat kAddressHeight = 22.0f;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     [self updateAddress:request];
+    //NSLog(@"shouldStartLoadWithRequest: %@", [request.URL absoluteString]);
     return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //NSLog(@"webViewDidStartLoad");
     [self updateButtons];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    //NSLog(@"webViewDidFinishLoad");
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
     [self updateButtons];
     [self updateTitle:webView];
@@ -100,7 +103,9 @@ static const CGFloat kAddressHeight = 22.0f;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"didFailLoadWithError: %@", error.description);
-    [self.webView stopLoading];
+    if ([error code] == NSURLErrorCancelled) {
+        return;
+    }
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self updateButtons];
     [self informError:error];
@@ -172,11 +177,8 @@ static const CGFloat kAddressHeight = 22.0f;
         url = [NSURL URLWithString:modifiedURL];
     }
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    if (self.webView.isLoading) {
-        [self.webView stopLoading];
-    }
+    [self.webView stopLoading];
     [self.webView loadRequest:urlRequest];
-    
 }
 
 - (void)loadRequestFromAddressField:(id)addressField {
