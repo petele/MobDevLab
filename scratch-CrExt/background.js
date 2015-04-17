@@ -22,21 +22,27 @@
 
 // is the extension enabled & running
 var isEnabled = false;
+var currentSite = {};
 
 
 // handle to the current tab
 var currentTab;
 
-function openURL(url) {
+function openURL(url, key) {
   var tabOptions = {
     url: url,
     active: true
+  };
+  currentSite = {
+    "key": key,
+    "url": url
   };
   if (currentTab === undefined) {
     tabOptions.index = 0;
     console.log("[OpenURL] (New)", tabOptions);
     chrome.tabs.create(tabOptions, function(newTab) {
       currentTab = newTab;
+      testPage(currentTab.id);
     });
   } else {
     console.log("[OpenURL] (Existing)", tabOptions);
@@ -45,18 +51,27 @@ function openURL(url) {
       // the url on a new tab.
       if (chrome.runtime.lastError) {
         currentTab = undefined;
-        openURL(url);
+        openURL(url, key);
       } else {
         // Updates the tab in case it changed due to preloading, etc
         currentTab = newTab;
+        testPage(currentTab.id);
       }
     });
   }
 }
 
+function testPage(tabID) {
+  setTimeout(function() {
+    var obj = {"file": "swtest.js"};
+    chrome.tabs.executeScript(tabID, obj);
+  }, 15000);
+}
+
+
 
 function init() {
-  console.log("[Init]")
+  console.log("[Init]");
   chrome.storage.sync.get("fbCnxSettings", function(settings) {
     if (settings.fbCnxSettings === undefined) {
       console.log("[Init] Creating default settings");
@@ -95,7 +110,7 @@ function init() {
       }
       fb.child("url").limitToLast(1).on("child_added", function(snapshot) {
         if (isEnabled) {
-          openURL(snapshot.val().url);
+          openURL(snapshot.val().url, snapshot.key());
         }
       });
     } catch (ex) {
@@ -105,7 +120,9 @@ function init() {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.message === "ready") {
+  if (request.serviceWorkerTest) {
+    console.log(request.url, "hasServiceWorker", request.hasServiceWorker);
+  } else if (request.message === "ready") {
     currentTab = undefined;
     chrome.tabs.remove(sender.tab.id);
     init();
