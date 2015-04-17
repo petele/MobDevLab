@@ -1,13 +1,13 @@
 
-var inputURL = document.querySelector("#url");
+var inputAppID = document.querySelector("#appID");
 var inputKey = document.querySelector("#key");
 var inputOnByDefault = document.querySelector("#onByDefault");
 
 document.querySelector("#butSave").addEventListener("click", function() {
   var fbCnxSettings = {
     "fbCnxSettings": {
+      "appID": inputAppID.value,
       "key": inputKey.value,
-      "url": inputURL.value,
       "onByDefault": inputOnByDefault.checked
     }
   };
@@ -19,7 +19,7 @@ document.querySelector("#butSave").addEventListener("click", function() {
 
 document.querySelector("#butClear").addEventListener("click", function() {
   inputKey.value = "";
-  inputURL.value = "";
+  inputAppID.value = "";
   inputOnByDefault.checked = true;
   chrome.storage.sync.clear();
 });
@@ -27,7 +27,7 @@ document.querySelector("#butClear").addEventListener("click", function() {
 chrome.storage.sync.get("fbCnxSettings", function(settings) {
   if (settings.fbCnxSettings !== undefined) {
     settings = settings.fbCnxSettings;
-    inputURL.value = settings.url;
+    inputAppID.value = settings.appID;
     inputKey.value = settings.key;
     if (settings.onByDefault === true) {
       inputOnByDefault.checked = true;
