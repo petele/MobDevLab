@@ -42,7 +42,7 @@ function openURL(url, key) {
     console.log("[OpenURL] (New)", tabOptions);
     chrome.tabs.create(tabOptions, function(newTab) {
       currentTab = newTab;
-      testPage(currentTab.id);
+      testPage(currentTab, currentSite);
     });
   } else {
     console.log("[OpenURL] (Existing)", tabOptions);
@@ -55,17 +55,56 @@ function openURL(url, key) {
       } else {
         // Updates the tab in case it changed due to preloading, etc
         currentTab = newTab;
-        testPage(currentTab.id);
+        testPage(currentTab, currentSite);
       }
     });
   }
 }
 
-function testPage(tabID) {
+function testPage(currentTab, currentSite) {
+  var testCode = [
+    "var params = [PARAMS];",
+    "function mmdlTestForServiceWorker() {",
+    "  console.log('starting serviceWorker test...');",
+    "  if ('serviceWorker' in navigator) {",
+    "    navigator.serviceWorker.getRegistration().then(function(registration) {",
+    "      if (registration) {",
+    "        // A service worker is registered for the page.",
+    "        chrome.runtime.sendMessage({",
+    "          'serviceWorkerTest': true,",
+    "          'hasServiceWorker': true,",
+    "          'params': params",
+    "        });",
+    "      } else {",
+    "        // No service worker is registered",
+    "        chrome.runtime.sendMessage({",
+    "          'serviceWorkerTest': true,",
+    "          'hasServiceWorker': false,",
+    "          'params': params",
+    "        });",
+    "      }",
+    "    }).catch(function(err) {",
+    "      // No service worker registered because of an error",
+    "      chrome.runtime.sendMessage({",
+    "        'serviceWorkerTest': true,",
+    "        'hasServiceWorker': false,",
+    "        'error': err,",
+    "        'params': params",
+    "      });",
+    "    });",
+    "  }",
+    "}",
+    "mmdlTestForServiceWorker();"];
+  var code = testCode.join("\n");
+  code = code.replace("[PARAMS]", JSON.stringify(currentSite));
+  var obj = {
+    "code": code,
+    "runAt": "document_idle"
+  };
   setTimeout(function() {
-    var obj = {"file": "swtest.js"};
-    chrome.tabs.executeScript(tabID, obj);
-  }, 15000);
+    chrome.tabs.executeScript(currentTab.id, obj);
+  }, 2500);
+  
 }
 
 
@@ -121,8 +160,8 @@ function init() {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.serviceWorkerTest) {
-    console.log(request.url, "hasServiceWorker", request.hasServiceWorker);
-  } else if (request.message === "ready") {
+    console.log("[ServiceWorker]", request.params.url, request.hasServiceWorker);
+  } else if (request.setup === "ready") {
     currentTab = undefined;
     chrome.tabs.remove(sender.tab.id);
     init();

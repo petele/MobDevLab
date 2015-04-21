@@ -33,7 +33,7 @@ document.querySelector("#butSave").addEventListener("click", function() {
   };
 
   chrome.storage.sync.set(fbCnxSettings, function() {
-    chrome.runtime.sendMessage({message: "ready"});
+    chrome.runtime.sendMessage({"setup": "ready"});
   });
 });
 
